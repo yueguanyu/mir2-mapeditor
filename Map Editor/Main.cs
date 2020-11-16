@@ -256,6 +256,9 @@ namespace Map_Editor
             mapWidth = w;
             mapHeight = h;
             graphics = Graphics.FromHwnd(MapPanel.Handle);
+            MapPanel.Visible = true;
+            MapPanel.Enabled = true;
+            Console.WriteLine($"MapPanel.Handle: {MapPanel.Handle}, graphics: {graphics}.");
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -280,7 +283,7 @@ namespace Map_Editor
             if (mi.Image == null || mi.ImageTexture == null) return;
             int w = mi.Width;
             int h = mi.Height;
-            DXManager.Sprite.Draw2D(mi.ImageTexture, Rectangle.Empty, new SizeF(w*zoomMIN/zoomMAX, h*zoomMIN/zoomMAX), new PointF(drawX, drawY), Color.White);
+            DXManager.Sprite.Draw2D(mi.ImageTexture, Rectangle.Empty, Rectangle.Empty, new Point(drawX, drawY), Color.White);
 
             //DXManager.Sprite.Draw2D(mi.ImageTexture, new Rectangle(Point.Empty, new Size(w * zoomMIN / zoomMAX, h * zoomMIN / zoomMAX)), new Rectangle(Point.Empty, new Size(w * zoomMIN / zoomMAX, h * zoomMIN / zoomMAX)), new Point(drawX, drawY), Color.White);
         }
@@ -296,7 +299,7 @@ namespace Map_Editor
             if (offSet) point.Offset(mi.X*zoomMIN/zoomMAX, mi.Y*zoomMIN/zoomMAX);
             var oldBlend = DXManager.Blending;
             DXManager.SetBlend(true, rate);
-            DXManager.Sprite.Draw2D(mi.ImageTexture, Rectangle.Empty, new SizeF(w*zoomMIN/zoomMAX, h*zoomMIN/zoomMAX), point, Color.White);
+            DXManager.Sprite.Draw2D(mi.ImageTexture, Rectangle.Empty, Rectangle.Empty, point, Color.White);
 
             //DXManager.Sprite.Draw2D(mi.ImageTexture, new Rectangle(Point.Empty, new Size(w * zoomMIN / zoomMAX, h * zoomMIN / zoomMAX)), new Rectangle(Point.Empty, new Size(w * zoomMIN / zoomMAX, h * zoomMIN / zoomMAX)), point, Color.White);
             DXManager.SetBlend(oldBlend);
@@ -320,6 +323,7 @@ namespace Map_Editor
 
         private void MapPanel_MouseMove(object sender, MouseEventArgs e)
         {
+            Console.WriteLine("MapPanel_MouseMove");
             //
             if (M2CellInfo == null) return;
             var p = MapPanel.PointToClient(MousePosition);
@@ -1731,6 +1735,7 @@ namespace Map_Editor
 
         private void MapPanel_MouseClick(object sender, MouseEventArgs e)
         {
+            Console.WriteLine("MapPanel_MouseClick");
             Point[] points;
             Point temp;
             if (M2CellInfo == null) return;
